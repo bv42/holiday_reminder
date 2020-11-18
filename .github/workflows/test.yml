@@ -22,4 +22,17 @@ jobs:
 
       - run: pipenv run isort --recursive --diff .
       - run: pipenv run flake8
-      - run: pipenv run pytest --cov --cov-fail-under=80
+
+  docker-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Build docker image
+        run: docker build . -t holiday_reminder
+
+      - name: Test image
+        run: |
+          docker run --rm -d --name test_container -p 8000:8000 holiday_reminder
+          docker run --link test_container:test_container waisbrot/wait
+          curl --fail http://localhost:8000
