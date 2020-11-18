@@ -7,8 +7,7 @@ name = "pypi"
 bottle = "~=0.12.19"
 
 [dev-packages]
-isort 
-black 
+isort
 flake8
 mypy
 pytest
